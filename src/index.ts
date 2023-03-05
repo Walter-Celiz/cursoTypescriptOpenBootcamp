@@ -500,3 +500,38 @@ setInterval(() => console.log("Tic"), 1000); // imprime "tic" cada segundo por c
 
 // Eliminar la ejecucion de la funcion
 delete miTemporizador.terminar;
+
+// Clases
+
+import { Curso } from "./models/Curso";
+import { Estudiante } from "./models/Estudiante";
+
+// Creamos un curso
+// const cursoTS: Curso = new Curso("TypeScript", 15);
+// const cursoJS: Curso = new Curso("JavaScript", 25);
+
+// const listaCursos: Curso[] = [];
+
+// listaCursos.push(cursoTS, cursoJS); //[Lista de cursos]
+
+// Usamos el Mock
+import { LISTA_CURSOS } from "./mock/cursos.mock";
+const listaCursos: Curso[] = LISTA_CURSOS;
+
+// Creamos un estudiante
+const gabriel: Estudiante = new Estudiante("Gabriel", listaCursos, "Celiz");
+
+console.log(`${gabriel.nombre} estudia: `);
+// Iteramos por cada uno de ellos
+gabriel.cursos.forEach((curso) => {
+  console.log(`- ${curso} ${curso.horas}`); // Typescript (15 horas)
+});
+
+const cursoAngular: Curso = new Curso("Angular", 40);
+gabriel.cursos.push(cursoAngular);
+
+// Conocer las horas Estudiadas
+gabriel.horasEstudiadas; // number
+gabriel.ID_Estudiante;
+
+// Saber la instancia de un objeto/variable
