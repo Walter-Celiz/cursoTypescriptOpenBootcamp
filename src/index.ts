@@ -436,13 +436,13 @@ function mostrarError(error: string | number): void {
 // 3. Cookies -> Tienen una fecha de caducidad y tambien un ambito de url
 
 // Local Storage
-// function guardarLocalStorage(): void {
-//   localStorage.set("nombre", "Walter");
-// }
+function guardarLocalStorage(): void {
+  localStorage.set("nombre", "Walter");
+}
 
-// function leerLocalStorage(): void {
-//   let nombre = localStorage.get("nombre");
-// }
+function leerLocalStorage(): void {
+  let nombre = localStorage.get("nombre");
+}
 
 // Cookies
 import {
@@ -503,9 +503,6 @@ delete miTemporizador.terminar;
 
 // Clases
 
-import { Curso } from "./models/Curso";
-import { Estudiante } from "./models/Estudiante";
-
 // Creamos un curso
 // const cursoTS: Curso = new Curso("TypeScript", 15);
 // const cursoJS: Curso = new Curso("JavaScript", 25);
@@ -515,7 +512,11 @@ import { Estudiante } from "./models/Estudiante";
 // listaCursos.push(cursoTS, cursoJS); //[Lista de cursos]
 
 // Usamos el Mock
+import { Trabajador, Jefe } from "./models/Persona";
 import { LISTA_CURSOS } from "./mock/cursos.mock";
+import { Curso } from "./models/Curso";
+import { Estudiante } from "./models/Estudiante";
+
 const listaCursos: Curso[] = LISTA_CURSOS;
 
 // Creamos un estudiante
@@ -535,3 +536,116 @@ gabriel.horasEstudiadas; // number
 gabriel.ID_Estudiante;
 
 // Saber la instancia de un objeto/variable
+
+// let texto = new String("Hola")
+
+// Instanceof
+let fechaNaciemiento = new Date(1991, 10, 10);
+
+if (fechaNaciemiento instanceof Date) {
+}
+
+if (gabriel instanceof Estudiante) {
+  console.log("martin es un Estudiante");
+}
+
+// Herencia y Polimorfismo
+
+let trabajador1 = new Trabajador("Jose", "Sande", 50, 2000);
+let trabajador2 = new Trabajador("Marcela", "Ominetti", 50, 2200);
+let trabajador3 = new Trabajador("Antonio", "Segovia", 51, 2000);
+
+let jefe = new Jefe("Pablo", "Garcia", 60);
+
+jefe.empleados.push(trabajador1, trabajador2, trabajador3);
+
+trabajador1.saludar(); // espesificado en Trabajador
+jefe.saludar(); // Herencia de la persona
+
+jefe.empleados.forEach((trabajador: Trabajador) => {
+  trabajador.saludar(); // especifico en Trabajador
+});
+
+// * Uso de Interfaces
+import { ITarea, Nivel } from "./models/interfaces/tarea.interface";
+import { Programar } from "./models/Programar";
+
+let programar: ITarea = {
+  titulo: "Programar en TypeScript",
+  descripcion: "Practicar con katas para aprender a desarrollar con TS",
+  compleatada: false,
+  urgencia: Nivel.Urgente,
+  resumen: function (): string {
+    return `${this.titulo} - ${this.compleatada}`;
+  },
+};
+
+console.log(programar.resumen);
+
+// Tarea de Programacion (implementa ITarea)
+let programarTS = new Programar(
+  "Typescript",
+  "Tarea de programacion en TS",
+  false,
+  Nivel.Bloqueante
+);
+
+console.log(programarTS.resumen());
+
+// Decoradores Experimentales -> @
+// - Clases
+// - Parámetros
+// - Métodos
+// - Propiedades
+
+function Override(label: string) {
+  return function (target: any, key: string) {
+    //any = clase, key= lo que se modifica
+    Object.defineProperty(target, key, {
+      configurable: false,
+      get: () => label,
+    });
+  };
+}
+
+class PruebaDecorador {
+  @Override("prueba") // llamar a la funcion Override
+  nombre: string = "Carlos";
+}
+
+let prueba = new PruebaDecorador();
+console.log(prueba.nombre); // "Prueba" siempre va a edvolver a travez el get()
+
+// Otra function para usarla como decorador
+function SoloLectura(target: any, key: string) {
+  Object.defineProperty(target, key, {
+    writable: false,
+  });
+}
+
+class PruebaSoloLectura {
+  @SoloLectura
+  nombre: string = "";
+}
+
+let pruebaLectura = new PruebaSoloLectura();
+pruebaLectura.nombre = "Martin";
+console.log(pruebaLectura.nombre); // ==> undefined siempre, no  se le puede dar un valor por el decorador
+
+// Decorador para parametros de un metodo
+function mostrarPosicion(
+  target: any,
+  propertyKey: string,
+  parameterIndex: number
+) {
+  console.log("Posicion", parameterIndex);
+}
+
+class PruebaMetodoDecorador {
+  prueba(a: string, @mostrarPosicion b: boolean) {
+    console.log(b);
+  }
+}
+
+// Usamos el metodo con el paramentro y su decorador
+new PruebaMetodoDecorador().prueba("Hola", false);
