@@ -598,54 +598,54 @@ console.log(programarTS.resumen());
 // - Métodos
 // - Propiedades
 
-function Override(label: string) {
-  return function (target: any, key: string) {
-    //any = clase, key= lo que se modifica
-    Object.defineProperty(target, key, {
-      configurable: false,
-      get: () => label,
-    });
-  };
-}
+// function Override(label: string) {
+//   return function (target: any, key: string) {
+//     //any = clase, key= lo que se modifica
+//     Object.defineProperty(target, key, {
+//       configurable: false,
+//       get: () => label,
+//     });
+//   };
+// }
 
-class PruebaDecorador {
-  @Override("prueba") // llamar a la funcion Override
-  nombre: string = "Carlos";
-}
+// class PruebaDecorador {
+//   @Override("prueba") // llamar a la funcion Override
+//   nombre: string = "Carlos";
+// }
 
-let prueba = new PruebaDecorador();
-console.log(prueba.nombre); // "Prueba" siempre va a edvolver a travez el get()
+// let prueba = new PruebaDecorador();
+// console.log(prueba.nombre); // "Prueba" siempre va a edvolver a travez el get()
 
 // Otra function para usarla como decorador
-function SoloLectura(target: any, key: string) {
-  Object.defineProperty(target, key, {
-    writable: false,
-  });
-}
+// function SoloLectura(target: any, key: string) {
+//   Object.defineProperty(target, key, {
+//     writable: false,
+//   });
+// }
 
-class PruebaSoloLectura {
-  @SoloLectura
-  nombre: string = "";
-}
+// class PruebaSoloLectura {
+//   @SoloLectura
+//   nombre: string = "";
+// }
 
-let pruebaLectura = new PruebaSoloLectura();
-pruebaLectura.nombre = "Martin";
-console.log(pruebaLectura.nombre); // ==> undefined siempre, no  se le puede dar un valor por el decorador
+// let pruebaLectura = new PruebaSoloLectura();
+// pruebaLectura.nombre = "Martin";
+// console.log(pruebaLectura.nombre); // ==> undefined siempre, no  se le puede dar un valor por el decorador
 
 // Decorador para parametros de un metodo
-function mostrarPosicion(
-  target: any,
-  propertyKey: string,
-  parameterIndex: number
-) {
-  console.log("Posicion", parameterIndex);
-}
+// function mostrarPosicion(
+//   target: any,
+//   propertyKey: string,
+//   parameterIndex: number
+// ) {
+//   console.log("Posicion", parameterIndex);
+// }
 
-class PruebaMetodoDecorador {
-  prueba(a: string, @mostrarPosicion b: boolean) {
-    console.log(b);
-  }
-}
+// class PruebaMetodoDecorador {
+//   prueba(a: string, @mostrarPosicion b: boolean) {
+//     console.log(b);
+//   }
+// }
 
-// Usamos el metodo con el paramentro y su decorador
-new PruebaMetodoDecorador().prueba("Hola", false);
+// // Usamos el metodo con el paramentro y su decorador
+// new PruebaMetodoDecorador().prueba("Hola", false);
